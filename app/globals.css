@@ -580,15 +580,56 @@ h2 {
 
 .portfolio-card {
   display: grid;
-  gap: 10px;
+  gap: 8px;
+  padding: 12px;
+  min-width: 0;
 }
 
 .work-image {
+  display: block;
   width: 100%;
-  height: auto;
-  border-radius: 12px;
-  border: 1px solid var(--line);
+  height: 100%;
+  border-radius: 0;
+  border: 0;
   object-fit: cover;
+  object-position: center;
+  transition: transform 0.35s ease;
+}
+
+.portfolio-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.portfolio-media {
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+  border: 1px solid rgba(18, 24, 38, 0.08);
+  aspect-ratio: 4 / 5;
+  background: #eef2f8;
+}
+
+.portfolio-card h3 {
+  margin: 0;
+  font-size: 1.02rem;
+}
+
+.portfolio-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.portfolio-card:hover .work-image {
+  transform: scale(1.02);
+}
+
+.portfolio-cta {
+  margin-top: 14px;
+  display: flex;
+  justify-content: center;
 }
 
 .faq-list {
@@ -836,6 +877,10 @@ h2 {
     grid-template-columns: 1fr;
   }
 
+  .portfolio-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .contact-map-script {
     aspect-ratio: 16 / 11;
   }
@@ -932,6 +977,10 @@ h2 {
 
   .contact-actions {
     grid-template-columns: 1fr;
+  }
+
+  .portfolio-media {
+    aspect-ratio: 4 / 3;
   }
 
   .cards {
@@ -1039,6 +1088,15 @@ h2 {
   .contact-map-script {
     padding: 0;
     overflow: hidden;
+  }
+
+  .portfolio-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .portfolio-media {
+    aspect-ratio: 1 / 1;
   }
 
   .sticky-mobile-cta a {

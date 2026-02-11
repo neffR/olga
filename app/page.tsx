@@ -194,21 +194,28 @@ export default function HomePage() {
             <h2>Работы</h2>
             <p>Реальные примеры результата и заживших работ.</p>
           </div>
-          <div className="cards portfolio">
+          <div className="portfolio-grid">
             {siteConfig.portfolio.map((item) => (
               <article key={item.title} className="card portfolio-card">
-                <Image
-                  src={item.image}
-                  alt={item.alt}
-                  width={640}
-                  height={800}
-                  className="work-image"
-                  sizes="(max-width: 720px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                />
+                <div className="portfolio-media">
+                  <Image
+                    src={item.image}
+                    alt={item.alt}
+                    width={760}
+                    height={960}
+                    className="work-image"
+                    sizes="(max-width: 720px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  />
+                </div>
                 <h3>{item.title}</h3>
                 <p>{item.description}</p>
               </article>
             ))}
+          </div>
+          <div className="portfolio-cta">
+            <a className="btn btn-primary" href={waLink} target="_blank" rel="noreferrer">
+              Хочу такой результат
+            </a>
           </div>
         </section>
 
