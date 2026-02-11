@@ -1,6 +1,8 @@
 import Image from "next/image";
 import { siteConfig } from "@/site.config";
 import { toAbsoluteUrl } from "@/lib/utils";
+import { MobileStickyCta } from "@/components/mobile-sticky-cta";
+import { LazyYandexMap } from "@/components/lazy-yandex-map";
 
 function formatPrice(price: string) {
   return price.replace("RUB", "₽");
@@ -75,7 +77,10 @@ export default function HomePage() {
   return (
     <>
       <header className="header">
-        <div className="logo">Перманентный макияж</div>
+        <div className="logo">
+          <span className="logo-mark" aria-hidden="true">PM</span>
+          <span className="logo-text">Перманентный макияж</span>
+        </div>
         <nav className="nav" aria-label="Основная навигация">
           <a href="#prices">Цены</a>
           <a href="#portfolio">Работы</a>
@@ -107,6 +112,11 @@ export default function HomePage() {
               <span>Ответ в течение 10 минут в рабочее время</span>
               <span>8+ лет практики</span>
               <span>Стерильный кабинет</span>
+            </div>
+            <div className="mobile-quick-nav" aria-label="Быстрая навигация по разделам">
+              <a href="#prices">Цены</a>
+              <a href="#portfolio">Работы</a>
+              <a href="#contacts">Контакты</a>
             </div>
           </div>
 
@@ -149,10 +159,21 @@ export default function HomePage() {
               <article key={service.name} className="card service-card">
                 <h3>{service.name}</h3>
                 <p className="price">{formatPrice(service.price)}</p>
-                <p className="service-note">{service.note}</p>
-                <a className="inline-cta" href={waLink} target="_blank" rel="noreferrer">
-                  Записаться на услугу
-                </a>
+                <div className="service-desktop">
+                  <p className="service-note">{service.note}</p>
+                  <a className="inline-cta" href={waLink} target="_blank" rel="noreferrer">
+                    Записаться на услугу
+                  </a>
+                </div>
+                <details className="service-mobile-accordion">
+                  <summary>Подробнее и запись</summary>
+                  <div className="service-mobile-panel">
+                    <p className="service-note">{service.note}</p>
+                    <a className="inline-cta" href={waLink} target="_blank" rel="noreferrer">
+                      Записаться на услугу
+                    </a>
+                  </div>
+                </details>
               </article>
             ))}
           </div>
@@ -246,11 +267,8 @@ export default function HomePage() {
               </a>
             </article>
             <div className="card contact-map-script map-wrap">
-              <iframe
+              <LazyYandexMap
                 src="https://yandex.ru/map-widget/v1/?um=constructor%3A82c3a72b73a8b7c65e54df35dec76dc4c30fcb0a4fefee0c5fa7c5018455e48b&source=constructor"
-                width="100%"
-                height="100%"
-                loading="lazy"
                 title="Карта рядом с блоком контактов"
               />
             </div>
@@ -263,10 +281,14 @@ export default function HomePage() {
         <p>Студия перманентного макияжа, {siteConfig.contacts.city}</p>
       </footer>
 
-      <div className="sticky-mobile-cta">
-        <a href={phoneLink}>Позвонить</a>
-        <a href={waLink} target="_blank" rel="noreferrer">Записаться</a>
-      </div>
+      <MobileStickyCta
+        phoneHref={phoneLink}
+        targets={[
+          { id: "prices", label: "Услуги и цены", href: "#prices" },
+          { id: "portfolio", label: "Смотреть работы", href: "#portfolio" },
+          { id: "contacts", label: "Записаться", href: waLink }
+        ]}
+      />
 
       <script
         type="application/ld+json"

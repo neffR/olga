@@ -4,6 +4,7 @@ import { siteConfig } from "@/site.config";
 import { toAbsoluteUrl } from "@/lib/utils";
 import "./globals.css";
 import { Metrics } from "@/components/metrics";
+import { ParallaxScroll } from "@/components/parallax-scroll";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.seo.domain),
@@ -77,6 +78,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html lang="ru">
       <body>
         <a className="skip-link" href="#main-content">Перейти к содержимому</a>
+        <ParallaxScroll />
         <Metrics />
         {children}
       </body>
