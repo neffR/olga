@@ -1,23 +1,46 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
-import { Montserrat } from "next/font/google";
 import { siteConfig } from "@/site.config";
 import { toAbsoluteUrl } from "@/lib/utils";
 import "./globals.css";
 import { Metrics } from "@/components/metrics";
 
-const montserrat = Montserrat({
-  subsets: ["latin", "cyrillic"],
-  variable: "--font-sans",
-  weight: ["400", "500", "600", "700", "800"]
-});
-
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.seo.domain),
-  title: siteConfig.seo.title,
+  title: {
+    default: siteConfig.seo.title,
+    template: `%s | ${siteConfig.brand.shortName}`
+  },
   description: siteConfig.seo.description,
-  keywords: siteConfig.seo.keywords,
+  keywords: [...siteConfig.seo.keywords],
+  applicationName: siteConfig.brand.shortName,
+  manifest: "/manifest.webmanifest",
+  formatDetection: {
+    telephone: false
+  },
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: siteConfig.brand.shortName
+  },
+  icons: {
+    icon: [
+      { url: "/icons/icon-192.svg", type: "image/svg+xml" },
+      { url: "/icons/icon-512.svg", type: "image/svg+xml" }
+    ],
+    apple: [{ url: "/icons/icon-192.svg", type: "image/svg+xml" }]
+  },
   alternates: { canonical: "/" },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1
+    }
+  },
   openGraph: {
     type: "website",
     locale: siteConfig.seo.locale,
@@ -42,10 +65,18 @@ export const metadata: Metadata = {
   }
 };
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  themeColor: "#ff5b3d"
+};
+
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="ru">
-      <body className={montserrat.variable}>
+      <body>
+        <a className="skip-link" href="#main-content">Перейти к содержимому</a>
         <Metrics />
         {children}
       </body>

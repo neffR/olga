@@ -9,6 +9,7 @@ function formatPrice(price: string) {
 export default function HomePage() {
   const waLink = `https://wa.me/${siteConfig.contacts.whatsappRaw}`;
   const phoneLink = `tel:${siteConfig.contacts.phoneRaw}`;
+  const yandexRouteLink = `https://yandex.ru/maps/?pt=${siteConfig.contacts.coordinates.longitude},${siteConfig.contacts.coordinates.latitude}&z=15&l=map`;
 
   const localBusinessJsonLd = {
     "@context": "https://schema.org",
@@ -21,6 +22,7 @@ export default function HomePage() {
       "@type": "PostalAddress",
       streetAddress: siteConfig.contacts.address,
       addressLocality: siteConfig.contacts.city,
+      addressRegion: "Нижегородская область",
       addressCountry: "RU"
     },
     geo: {
@@ -28,8 +30,18 @@ export default function HomePage() {
       latitude: siteConfig.contacts.coordinates.latitude,
       longitude: siteConfig.contacts.coordinates.longitude
     },
+    hasMap: siteConfig.contacts.mapEmbed,
+    sameAs: [siteConfig.socials.vk, siteConfig.socials.instagram],
     openingHours: "Mo-Sa 10:00-20:00",
-    priceRange: "₽₽"
+    priceRange: "₽₽",
+    areaServed: siteConfig.contacts.city,
+    currenciesAccepted: "RUB",
+    contactPoint: {
+      "@type": "ContactPoint",
+      telephone: siteConfig.contacts.phoneDisplay,
+      contactType: "customer service",
+      availableLanguage: ["ru"]
+    }
   };
 
   const faqJsonLd = {
@@ -45,11 +57,26 @@ export default function HomePage() {
     }))
   };
 
+  const offersJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "OfferCatalog",
+    name: "Услуги перманентного макияжа",
+    itemListElement: siteConfig.services.map((service) => ({
+      "@type": "Offer",
+      itemOffered: {
+        "@type": "Service",
+        name: service.name
+      },
+      priceCurrency: "RUB",
+      price: service.price.replace(/[^\d]/g, "")
+    }))
+  };
+
   return (
     <>
       <header className="header">
         <div className="logo">Перманентный макияж</div>
-        <nav className="nav">
+        <nav className="nav" aria-label="Основная навигация">
           <a href="#prices">Цены</a>
           <a href="#portfolio">Работы</a>
           <a href="#faq">FAQ</a>
@@ -60,7 +87,7 @@ export default function HomePage() {
         </nav>
       </header>
 
-      <main>
+      <main id="main-content">
         <section className="hero">
           <div className="hero-main">
             <p className="kicker">{siteConfig.contacts.city} · Перманентный макияж</p>
@@ -210,6 +237,10 @@ export default function HomePage() {
                   <a className="contact-value" href={siteConfig.socials.instagram} target="_blank" rel="noreferrer">Открыть Instagram</a>
                 </div>
               </div>
+              <div className="contact-actions">
+                <a className="btn btn-secondary" href={phoneLink}>Позвонить</a>
+                <a className="btn btn-secondary" href={yandexRouteLink} target="_blank" rel="noreferrer">Маршрут</a>
+              </div>
               <a className="btn btn-primary block" href={waLink} target="_blank" rel="noreferrer">
                 Написать и записаться
               </a>
@@ -244,6 +275,10 @@ export default function HomePage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(offersJsonLd) }}
       />
     </>
   );
