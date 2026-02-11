@@ -63,7 +63,8 @@ a {
 .hero,
 .section,
 .footer {
-  width: min(var(--content-max), 100%);
+  width: 100%;
+  max-width: none;
   margin-inline: auto;
 }
 
