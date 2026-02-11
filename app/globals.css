@@ -13,6 +13,8 @@
   --radius-sm: 16px;
   --shadow-lg: 0 26px 60px rgba(20, 28, 45, 0.12);
   --shadow-md: 0 12px 30px rgba(20, 28, 45, 0.08);
+  --content-max: 1240px;
+  --side-pad: 6vw;
 }
 
 * {
@@ -61,7 +63,7 @@ a {
 .hero,
 .section,
 .footer {
-  width: min(1240px, 100%);
+  width: min(var(--content-max), 100%);
   margin-inline: auto;
 }
 
@@ -79,7 +81,7 @@ a {
   top: 0;
   z-index: 40;
   height: 74px;
-  padding: 0 6vw;
+  padding: 0 var(--side-pad);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -89,7 +91,7 @@ a {
 }
 
 .logo {
-  font-size: 1.45rem;
+  font-size: clamp(1.05rem, 1.1vw + 0.85rem, 1.45rem);
   letter-spacing: 0.01em;
 }
 
@@ -105,15 +107,15 @@ a {
 
 .nav a {
   font-weight: 600;
-  font-size: 0.95rem;
+  font-size: clamp(0.88rem, 0.3vw + 0.75rem, 0.95rem);
 }
 
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 48px;
-  padding: 0 18px;
+  min-height: clamp(44px, 1.2vw + 38px, 48px);
+  padding: 0 clamp(12px, 1.2vw, 18px);
   border-radius: 999px;
   border: 1px solid transparent;
   font-weight: 700;
@@ -155,7 +157,7 @@ main {
 }
 
 .hero {
-  padding: 26px 6vw 16px;
+  padding: 26px var(--side-pad) 16px;
   display: grid;
   grid-template-columns: minmax(0, 1.2fr) minmax(290px, 0.8fr);
   gap: 16px;
@@ -296,7 +298,7 @@ h2 {
 }
 
 .section {
-  padding: 22px 6vw 28px;
+  padding: 22px var(--side-pad) 28px;
 }
 
 .section[id] {
@@ -553,7 +555,7 @@ h2 {
 }
 
 .footer {
-  padding: 26px 6vw calc(18px + env(safe-area-inset-bottom));
+  padding: 26px var(--side-pad) calc(18px + env(safe-area-inset-bottom));
   text-align: center;
   color: var(--muted);
 }
@@ -650,6 +652,16 @@ h2 {
   }
 }
 
+@media (max-width: 1200px) {
+  :root {
+    --content-max: 1120px;
+  }
+
+  .hero {
+    grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.9fr);
+  }
+}
+
 @media (max-width: 860px) {
   .header {
     height: 66px;
@@ -666,6 +678,10 @@ h2 {
 }
 
 @media (max-width: 720px) {
+  :root {
+    --side-pad: 5vw;
+  }
+
   .proof-strip {
     grid-template-columns: 1fr;
   }
@@ -696,5 +712,65 @@ h2 {
 
   main {
     padding-bottom: 84px;
+  }
+}
+
+@media (max-width: 560px) {
+  .header {
+    height: 62px;
+  }
+
+  .btn {
+    width: 100%;
+  }
+
+  .hero-main h1 {
+    max-width: none;
+  }
+
+  .contact-chip-row {
+    gap: 6px;
+  }
+
+  .contact-chip {
+    font-size: 0.75rem;
+    min-height: 28px;
+  }
+
+  .contact-map-script {
+    aspect-ratio: 4 / 3;
+  }
+}
+
+@media (max-width: 380px) {
+  :root {
+    --side-pad: 4.2vw;
+  }
+
+  .hero-main,
+  .hero-offer-card,
+  .card {
+    padding: 16px;
+  }
+
+  .kicker {
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
+  }
+}
+
+@media (min-width: 1500px) {
+  :root {
+    --content-max: 1320px;
+  }
+}
+
+@media (max-height: 520px) and (orientation: landscape) {
+  .header {
+    position: static;
+  }
+
+  .sticky-mobile-cta {
+    display: none;
   }
 }
